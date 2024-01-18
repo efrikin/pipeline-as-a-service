@@ -1,0 +1,24 @@
+image: python:3.12.1-alpine3.18
+
+generate-pipeline:
+  stage: build
+  script: |-
+    echo -e "\e[0Ksection_start:`date +%s`:my_first_section[collapsed=true]\r\e[0KPrepare environment"
+    apk add --no-cache py-pip
+    pip install --upgrade --no-cache pipenv
+    pipenv install
+    echo -e "\e[0Ksection_end:`date +%s`:my_first_section\r\e[0K"
+    pipenv run python .gitlab-ci.py
+  artifacts:
+    paths:
+      - generated-config.yml
+
+test:
+  stage: test
+  trigger:
+    include:
+      - artifact: generated-config.yml
+        job: generate-pipeline
+    strategy: depend
+  needs:
+    - generate-pipeline

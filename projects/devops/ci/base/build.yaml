@@ -1,0 +1,9 @@
+.build:
+  stage: build
+  script: |-
+    echo build
+    if [ ${PP__IS_ENABLED} ]; then
+      echo "Artifact will be skipped"
+    else
+      echo "Artifact will be saved"
+    fi

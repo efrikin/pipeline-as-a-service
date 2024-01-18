@@ -1,0 +1,8 @@
+include:
+  local: base/test.yaml
+
+test:
+  extends: .test
+  rules:
+    - if: $CI_COMMIT_TAG
+    - if: $CI_PIPELINE_SOURCE == 'pipeline' && $PP__IS_ENABLED

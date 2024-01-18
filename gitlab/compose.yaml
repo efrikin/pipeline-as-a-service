@@ -1,0 +1,46 @@
+version: "3.6"
+
+name: gitlab
+
+services:
+  gitlab:
+    image: gitlab/gitlab-ee:latest
+    hostname: ${COMPOSE_PROJECT_NAME}
+    ports:
+      - "22:22"
+      - "80:80"
+      - "443:443"
+    # volumes:
+    #   - ${PWD}/data:/var/opt/gitlab
+    #   - ${PWD}/logs:/var/log/gitlab
+    #   - ${PWD}/config:/etc/gitlab
+    shm_size: '256m'
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://${COMPOSE_PROJECT_NAME}'
+        gitlab_rails['initial_root_password'] = File.read('/run/secrets/gitlab_root_password').gsub("\n", "")
+        gitlab_rails['monitoring_whitelist'] = ['127.0.0.0/8']
+    secrets:
+      - gitlab_root_password
+
+  gitlab-runner:
+    image: gitlab/gitlab-runner:alpine
+    hostname: ${COMPOSE_PROJECT_NAME}-runner
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      REGISTER_NON_INTERACTIVE: true
+      REGISTER_RUN_UNTAGGED: true
+      CI_SERVER_URL: http://${COMPOSE_PROJECT_NAME}
+      RUNNER_EXECUTOR: docker
+      DOCKER_IMAGE: python:3.12.1-alpine3.18
+      DOCKER_NETWORK_MODE: ${COMPOSE_PROJECT_NAME}
+
+secrets:
+  gitlab_root_password:
+    file: ./.gitlab_root_password
+
+networks:
+  default:
+    name: ${COMPOSE_PROJECT_NAME}
+
