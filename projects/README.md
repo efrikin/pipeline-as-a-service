@@ -2,8 +2,8 @@
 
 ## `Create projects`
 
-### `devops/ci
-`
+### `devops/ci`
+
 ```bash
 git clone
 cd projects/devops/ci

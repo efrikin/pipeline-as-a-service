@@ -1,12 +1,8 @@
-
+"""Script creating diagram"""
 #!/usr/bin/python
 
-from diagrams import Diagram, Cluster, Node, Edge
-from diagrams.onprem.vcs import Gitlab
+from diagrams import Diagram, Cluster, Edge
 from diagrams.programming.flowchart import StartEnd
-
-from urllib.request import urlretrieve
-
 
 graph_attr = {
     "pad": "0",
@@ -59,9 +55,9 @@ with Diagram("Pipeline visualization for devops/ci project",
                 fontsize="20",
                 )
 
-        for stage in range(len(stages)):
-            s = StartEnd(stages[stage], labelloc="c", height="3", width="3")
+        for i, stage in enumerate(stages):
+            # pylint: disable=R1736
+            s = StartEnd(stages[i], labelloc="c", height="3", width="3")
             results.append(s)
+        # pylint: disable=W0104
         vis_second - results[0] - results[1] - vis >> results[2]
-diag
-

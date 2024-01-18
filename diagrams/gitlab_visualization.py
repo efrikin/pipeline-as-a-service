@@ -1,12 +1,8 @@
-
+"""Script creating diagram"""
 #!/usr/bin/python
 
-from diagrams import Diagram, Cluster, Node, Edge
+from diagrams import Diagram, Cluster, Edge
 from diagrams.programming.flowchart import StartEnd
-from diagrams.generic.blank import Blank
-
-from urllib.request import urlretrieve
-
 
 graph_attr = {
     "pad": "0",
@@ -44,9 +40,9 @@ with Diagram("Pipeline visualization for apps/test project",
 
     with Cluster("", graph_attr=cluster_attr):
         inv = Edge(style="invis",minlen="3")
-        for stage in range(len(stages)):
-            s = StartEnd(stages[stage], labelloc="c", height="3", width="3")
+        for i, stage in enumerate(stages):
+            # pylint: disable=R1736
+            s = StartEnd(stages[i], labelloc="c", height="3", width="3")
             results.append(s)
-            results[stage-1] >> inv >> results[stage]
-diag
-
+            # pylint: disable=W0104
+            results[i-1] >> inv >> results[i]

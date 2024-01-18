@@ -1,13 +1,10 @@
-
+"""Script creating diagram"""
 #!/usr/bin/python
 
-from diagrams import Diagram, Cluster, Node, Edge
-from diagrams.custom import Custom
+from diagrams import Diagram, Cluster, Edge
 from diagrams.onprem.vcs import Git
 from diagrams.onprem.ci import GitlabCI
 from diagrams.azure.general import Usericon
-
-from urllib.request import urlretrieve
 
 
 graph_attr = {
@@ -60,6 +57,7 @@ with Diagram("New feature development in the App project",
                         fontcolor="black",
                     )
 
+        # pylint: disable=W0106
         user >> Edge(
                         label="1.Creating branch",
                         color="black",
@@ -67,6 +65,7 @@ with Diagram("New feature development in the App project",
                         fontsize="19",
                     ) >> app_project
 
+        # pylint: disable=W0106
         app_project >> Edge(
                         label="2.Development new feature",
                         color="black",
@@ -74,6 +73,7 @@ with Diagram("New feature development in the App project",
                         fontsize="19",
                     ) << cicd
 
+        # pylint: disable=W0106
         app_project >> Edge(
                         label="3.Moving new feature",
                         style="dashed",
@@ -82,12 +82,10 @@ with Diagram("New feature development in the App project",
                         fontsize="19",
                     ) >> ci_project
 
+        # pylint: disable=W0106
         ci_project >> Edge(
                         label="4.Updating version CI",
                         color="black",
                         fontcolor="black",
                         fontsize="19",
                     ) >> app_project
-
-diag
-

@@ -94,8 +94,8 @@ if __name__ == "__main__":
     END_COLOR='\033[0m'
     FAILED_COLOR='\033[41m'
     SUCCESS_COLOR='\033[42m'
-    GITLAB__SERVER_URL = os.environ.get('CI_SERVER_URL')
-    PP__TOKEN = os.environ.get('PP__TOKEN')
+    GITLAB__SERVER_URL = os.environ.get('CI_SERVER_URL', 'http://gitlab')
+    PP__TOKEN = os.environ.get('PP__TOKEN', 'glpat-LTpLQvQoVZNYsyFdxxA9')
 
     gitlab_jobs = get_pipeline_jobs(GITLAB__SERVER_URL, PP__TOKEN)
     build_ci_file(gitlab_jobs)
