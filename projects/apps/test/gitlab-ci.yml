@@ -1,0 +1,4 @@
+include:
+  - project: devops/ci
+    file: main.yaml
+    ref: $PP__CI_COMMIT_REF_NAME
